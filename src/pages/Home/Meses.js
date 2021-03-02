@@ -1,6 +1,7 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Rest from '../../utils/rest'
+import { Redirect } from 'react-router-dom'
 
 const baseURL = 'https://mymoney-e3011-default-rtdb.firebaseio.com/'
 const { useGet } = Rest(baseURL)
@@ -11,6 +12,11 @@ const Meses = () => {
     if (data.loading) {
         return <span>Carregando...</span>
     }
+
+    if (data.error === 'Permission denied') {
+        return <Redirect to='/login'></Redirect>
+    }
+
     if (Object.keys(data.data).length > 0) {
         return(
             <table className='table'>
